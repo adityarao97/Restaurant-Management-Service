@@ -1,0 +1,19 @@
+/* src/pages/Home.css */
+.home-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .home-container h1 {
+    font-size: 2.5em;
+  }
+  
+  .home-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .home-container li {
+    margin: 10px 0;
+  }
+  
