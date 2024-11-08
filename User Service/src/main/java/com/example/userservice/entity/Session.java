@@ -1,9 +1,6 @@
 package com.example.userservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -13,8 +10,9 @@ import java.sql.Timestamp;
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
-    String userId;
+    Long id;
+    @Column(name = "user_id")
+    Long userId;
     String jwtToken;
     String refreshToken;
     Timestamp createdDate;
