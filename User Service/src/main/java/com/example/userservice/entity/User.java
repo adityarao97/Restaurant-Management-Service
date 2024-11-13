@@ -1,9 +1,6 @@
 package com.example.userservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -13,17 +10,28 @@ import java.sql.Timestamp;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
+    Long id;
+    @Column(name = "user_type_id")
+    Long userTypeId;
+    @Column(name = "name")
     String name;
-    String emailID;
+    @Column(name = "email")
+    String email;
+    @Column(name = "password")
     String password;
-    UserType userType;
-    Session session;
-    Timestamp createdDate;
-    Timestamp modifiedDate;
+    @Column(name = "created_date")
+    Timestamp createdDate = new Timestamp(System.currentTimeMillis());
+    @Column(name = "modified_date")
+    Timestamp modifiedDate = new Timestamp(System.currentTimeMillis());
+    @Column(name = "last_login")
     Timestamp lastLogin;
-    Boolean isActive;
+    @Column(name = "is_active")
+    Boolean isActive = true;
+    @Column(name = "profile_image")
     String profileImage;
+    @Column(name = "reset_password_token")
     String resetPasswordToken;
-    Timestamp resetPasswordExpired;
+    @Column(name = "reset_password_expires")
+    Timestamp resetPasswordExpires;
+    String userType;
 }
