@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: users
+foursquare:
+  api:
+    key: fsq3nELtIPixx7Mt3uRIaecINJuarCRZYixZeXUsisPkqW8=
+google:
+  places:
+    api:
+      key: AIzaSyBJFqNCA6pUX6vzWOnJtI7LQWi6UGJUr6M
