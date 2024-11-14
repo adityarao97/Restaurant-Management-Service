@@ -4,11 +4,13 @@ import com.restaurant.model.Restaurant;
 import com.restaurant.model.Review;
 import com.restaurant.processor.FourSquareParser;
 import com.restaurant.service.FourSquareService;
+import com.restaurant.service.GooglePlacesService;
 import com.restaurant.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurants") // Base path for restaurant-related endpoints
@@ -19,6 +21,9 @@ public class RestaurantController {
 
     @Autowired
     FourSquareService fourSquareService;
+
+    @Autowired
+    GooglePlacesService googlePlacesService;
 
     @Autowired
     private FourSquareParser foursquareParser;
@@ -71,6 +76,23 @@ public class RestaurantController {
     @GetMapping("/searchByZipCode")
     public List<Restaurant> searchByZipCode(@RequestParam String zipCode) {
         return fourSquareService.searchRestaurantsByZipCode(zipCode);
+    }
+
+    @GetMapping("/gsearchByZipCode")
+    public List<Restaurant> gsearchByZipCode(@RequestParam String zipCode) {
+        return googlePlacesService.searchRestaurantsByZipCode(zipCode);
+    }
+
+    @GetMapping("/search")
+    public List<Restaurant> searchRestaurants(
+            @RequestParam Optional<String> name,
+            @RequestParam Optional<String> zipCode,
+            @RequestParam Optional<List<String>> categories,
+            @RequestParam Optional<Double> averageRating) {
+        if (!name.isPresent() && !zipCode.isPresent() && !categories.isPresent() && !averageRating.isPresent()) {
+            throw new IllegalArgumentException("At least one search parameter must be provided");
+        }
+        return restaurantService.searchRestaurants(name, zipCode, categories, averageRating);
     }
 
 }

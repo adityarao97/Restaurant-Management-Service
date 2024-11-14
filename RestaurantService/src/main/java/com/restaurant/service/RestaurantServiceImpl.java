@@ -4,15 +4,23 @@ import com.restaurant.model.Restaurant;
 import com.restaurant.model.Review;
 import com.restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     public void saveRestaurant(Restaurant restaurant) {
         restaurantRepository.save(restaurant);
@@ -60,6 +68,22 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setAverageRating(averageRating);
 
         return restaurantRepository.save(restaurant); // Save and return updated restaurant
+    }
+
+    public List<Restaurant> searchRestaurants(Optional<String> name, Optional<String> zipCode, Optional<List<String>> categories, Optional<Double> averageRating) {
+        Query query = new Query();
+        List<Criteria> criteria = new ArrayList<>();
+
+        name.ifPresent(n -> criteria.add(Criteria.where("name").regex(n, "i"))); // Case-insensitive
+        zipCode.ifPresent(z -> criteria.add(Criteria.where("zipCode").is(z)));
+        categories.ifPresent(cats -> criteria.add(Criteria.where("categories").in(cats)));
+        averageRating.ifPresent(rating -> criteria.add(Criteria.where("averageRating").gte(rating)));
+
+        if (!criteria.isEmpty()) {
+            query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[0])));
+        }
+
+        return mongoTemplate.find(query, Restaurant.class);
     }
 
 }

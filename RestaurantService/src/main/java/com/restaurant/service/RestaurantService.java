@@ -5,6 +5,7 @@ import com.restaurant.model.Review;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RestaurantService {
 
@@ -24,5 +25,7 @@ public interface RestaurantService {
     Restaurant getRestaurantDetails(String id); // New method
 
     Restaurant addReview(String restaurantId, Review review); // New method
+
+    List<Restaurant> searchRestaurants(Optional<String> name, Optional<String> zipCode, Optional<List<String>> categories, Optional<Double> averageRating);
 
 }
