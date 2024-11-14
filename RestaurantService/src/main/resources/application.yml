@@ -9,3 +9,10 @@ spring:
       host: localhost
       port: 27017
       database: users
+foursquare:
+  api:
+    key: fsq3nELtIPixx7Mt3uRIaecINJuarCRZYixZeXUsisPkqW8=
+google:
+  places:
+    api:
+      key: AIzaSyBJFqNCA6pUX6vzWOnJtI7LQWi6UGJUr6M
