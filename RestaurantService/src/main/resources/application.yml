@@ -9,9 +9,7 @@ spring:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: users
+      uri: mongodb+srv://nikhilkoli:AJdS9w3a9Tkh4tqK@restaurantservicecluste.gcrua.mongodb.net/users?retryWrites=true&w=majority&appName=RestaurantServiceCluster
 foursquare:
   api:
     key: fsq3nELtIPixx7Mt3uRIaecINJuarCRZYixZeXUsisPkqW8=
