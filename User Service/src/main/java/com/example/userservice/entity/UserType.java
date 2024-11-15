@@ -1,9 +1,6 @@
 package com.example.userservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -13,9 +10,13 @@ import java.sql.Timestamp;
 public class UserType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String id;
+    Long id;
+    @Column(name = "name")
     String name;
-    Boolean isActive;
-    Timestamp createdDate;
-    Timestamp modifiedDate;
+    @Column(name = "is_active")
+    Boolean isActive = true;
+    @Column(name = "created_date")
+    Timestamp createdDate = new Timestamp(System.currentTimeMillis());
+    @Column(name = "modified_date")
+    Timestamp modifiedDate = new Timestamp(System.currentTimeMillis());
 }

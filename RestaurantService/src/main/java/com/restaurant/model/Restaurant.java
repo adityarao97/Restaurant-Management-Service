@@ -13,18 +13,24 @@ import java.util.List;
 @NoArgsConstructor
 @Document("Restaurant")
 public class Restaurant {
+
     @Id
     private String id;
     private String name;
     private String address;
     private String contactInfo;
     private String description;
-    private List<String> categories; // E.g., Vegetarian, Vegan, Cuisine types
+    private List<String> categories;
     private String zipCode;
-    private double averageRating; // Average rating based on user reviews
-    private double priceRange; // Low/Medium/High price category
+    private double averageRating;
+    private double priceRange;
     private List<Review> reviews;
     private List<String> photos;
     private String businessOwnerId;
-    private String hours; // Operating hours
+    private String hours;
+
+    // New fields
+    private Integer priceLevel;
+    private Boolean openNow;
+    private Integer userRatingsTotal;
 }
