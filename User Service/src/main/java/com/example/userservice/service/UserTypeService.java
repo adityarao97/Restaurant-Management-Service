@@ -1,10 +1,12 @@
 package com.example.userservice.service;
 
-import com.example.userservice.entity.User;
 import com.example.userservice.entity.UserType;
 
+import java.util.List;
+
 public interface UserTypeService {
-    public void createOrUpdate(UserType userType);
-    public UserType getUserTypeByUser(User user);
+    public UserType createOrUpdate(UserType userType);
+    public List<UserType> getAllUserTypes();
     public void deleteUserType(UserType userType);
+    public UserType getUserTypeByUserTypeId(Long userId);
 }
