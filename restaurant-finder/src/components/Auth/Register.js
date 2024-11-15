@@ -2,7 +2,12 @@
 import React, { useState } from 'react';
 
 function Register() {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+  const [formData, setFormData] = useState({
+    username: '',
+    role: 'user',  // default role
+    email: '',
+    password: ''
+  });
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
@@ -13,11 +18,17 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('YOUR_API_URL/register', {
+      const response = await fetch('http://localhost:8081/api/user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.username,
+          email: formData.email,
+          password: formData.password,
+          userTypeId: formData.role === 'admin' ? 1 : formData.role === 'business-owner' ? 3 : 2,  // Adjust IDs as needed
+        }),
       });
+      
       if (!response.ok) throw new Error('Registration failed');
       const data = await response.json();
       console.log('Registered:', data);
@@ -40,6 +51,18 @@ function Register() {
           onChange={handleChange}
           required
         />
+        
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          required
+        >
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+          <option value="business-owner">Business Owner</option>
+        </select>
+
         <input
           type="email"
           name="email"
@@ -48,6 +71,7 @@ function Register() {
           onChange={handleChange}
           required
         />
+        
         <input
           type="password"
           name="password"
@@ -56,6 +80,7 @@ function Register() {
           onChange={handleChange}
           required
         />
+        
         <button type="submit">Register</button>
       </form>
     </div>
