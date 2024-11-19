@@ -1,29 +1,8 @@
 // src/pages/User/Search.js
-import React, { useState } from 'react';
-
-// Mock data to simulate search results
-const mockRestaurants = [
-  {
-    id: 1,
-    name: "Sushi Place",
-    cuisine: "Japanese",
-    type: "Vegan",
-    priceRange: "High",
-    rating: 4.5,
-  },
-  {
-    id: 2,
-    name: "Pasta House",
-    cuisine: "Italian",
-    type: "Vegetarian",
-    priceRange: "Medium",
-    rating: 4.0,
-  },
-  // Add more mock restaurants as needed
-];
+import React, { useState, useEffect } from 'react';
 
 function Search() {
-  // State for form inputs
+  const [username, setUsername] = useState(null);
   const [filters, setFilters] = useState({
     name: '',
     cuisine: '',
@@ -31,31 +10,50 @@ function Search() {
     priceRange: '',
     rating: '',
   });
-  
-  // State for filtered results
-  const [results, setResults] = useState(mockRestaurants);
+
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    // Retrieve username from localStorage
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
   };
 
-  const handleSearch = () => {
-    // Filter mockRestaurants based on filters
-    const filteredResults = mockRestaurants.filter((restaurant) => {
-      return (
-        (filters.name === '' || restaurant.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-        (filters.cuisine === '' || restaurant.cuisine.toLowerCase().includes(filters.cuisine.toLowerCase())) &&
-        (filters.type === '' || restaurant.type.toLowerCase().includes(filters.type.toLowerCase())) &&
-        (filters.priceRange === '' || restaurant.priceRange.toLowerCase() === filters.priceRange.toLowerCase()) &&
-        (filters.rating === '' || restaurant.rating >= parseFloat(filters.rating))
-      );
-    });
-    setResults(filteredResults);
+  const handleSearch = async () => {
+    try {
+      // Fetch restaurants from the API
+      const response = await fetch('http://3.101.125.192:8080/restaurants/getRestaurants');
+      if (!response.ok) throw new Error('Failed to fetch restaurants');
+      const data = await response.json();
+
+      // Filter the results locally based on the user's search filters
+      const filteredResults = data.filter((restaurant) => {
+        return (
+          (filters.name === '' || restaurant.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+          (filters.cuisine === '' || restaurant.cuisine.toLowerCase().includes(filters.cuisine.toLowerCase())) &&
+          (filters.type === '' || restaurant.type.toLowerCase().includes(filters.type.toLowerCase())) &&
+          (filters.priceRange === '' || restaurant.priceRange.toLowerCase() === filters.priceRange.toLowerCase()) &&
+          (filters.rating === '' || restaurant.rating >= parseFloat(filters.rating))
+        );
+      });
+
+      setResults(filteredResults);
+    } catch (error) {
+      console.error('Error fetching restaurants:', error);
+    }
   };
 
   return (
     <div style={{ padding: '20px' }}>
+      {/* Display the username in the welcome message */}
+      {username && <h2>Welcome, {username}!</h2>}
       <h1>Search Restaurants</h1>
       <form style={{ marginBottom: '20px' }}>
         <input

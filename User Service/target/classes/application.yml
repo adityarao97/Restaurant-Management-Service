@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/userservice
-    username: aditya
-    password: cm9vdA==
+    url: jdbc:mysql://userservice.cvkoqyi2aeyb.us-west-1.rds.amazonaws.com/userservice
+    username: admin
+    password: techTitans#202
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,3 +13,5 @@ spring:
 logging:
   level:
     org.hibernate.type.descriptor.sql.BasicTypeRegistry: TRACE
+server:
+  port: 8081

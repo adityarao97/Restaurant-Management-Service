@@ -1,14 +1,18 @@
 // src/components/Auth/Register.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Register.css';
 
 function Register() {
   const [formData, setFormData] = useState({
     username: '',
-    role: 'user',  // default role
+    role: 'customer', // default role
     email: '',
     password: ''
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,24 +29,34 @@ function Register() {
           name: formData.username,
           email: formData.email,
           password: formData.password,
-          userTypeId: formData.role === 'admin' ? 1 : formData.role === 'business-owner' ? 3 : 2,  // Adjust IDs as needed
+          userTypeId: formData.role === 'admin' ? 2 : formData.role === 'business-owner' ? 3 : 1,
         }),
       });
-      
+
       if (!response.ok) throw new Error('Registration failed');
       const data = await response.json();
       console.log('Registered:', data);
-      // Redirect to login or show success message
+
+      // Store the username in localStorage
+      localStorage.setItem('username', formData.username);
+
+      setSuccess(true);
+      setTimeout(() => navigate('/search'), 2000); // Redirect to search after 2 seconds
     } catch (err) {
       setError('Registration failed');
     }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+    <div className="register-container">
+      <h2 className="register-title">Register</h2>
+      {error && <p className="error-message">{error}</p>}
+      {success && (
+        <p className="success-message">
+          Registration successful! Redirecting to search...
+        </p>
+      )}
+      <form onSubmit={handleSubmit} className="register-form">
         <input
           type="text"
           name="username"
@@ -50,19 +64,19 @@ function Register() {
           value={formData.username}
           onChange={handleChange}
           required
+          className="register-input"
         />
-        
         <select
           name="role"
           value={formData.role}
           onChange={handleChange}
           required
+          className="register-input"
         >
+          <option value="customer">Customer</option>
           <option value="admin">Admin</option>
-          <option value="user">User</option>
           <option value="business-owner">Business Owner</option>
         </select>
-
         <input
           type="email"
           name="email"
@@ -70,8 +84,8 @@ function Register() {
           value={formData.email}
           onChange={handleChange}
           required
+          className="register-input"
         />
-        
         <input
           type="password"
           name="password"
@@ -79,9 +93,11 @@ function Register() {
           value={formData.password}
           onChange={handleChange}
           required
+          className="register-input"
         />
-        
-        <button type="submit">Register</button>
+        <button type="submit" className="register-button">
+          Register
+        </button>
       </form>
     </div>
   );
