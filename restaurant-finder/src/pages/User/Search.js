@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './Search.css';
 import config from '../../config/config';
+
 function Search() {
   const [username, setUsername] = useState(null); // Stores the logged-in username
   const [filters, setFilters] = useState({
     name: '',
-    cuisine: '',
-    type: '',
-    priceRange: '',
-    rating: '',
+    zipCode: '',
+    categories: '',
+    averageRating: '',
   }); // Stores search filters
-
   const [results, setResults] = useState([]); // Stores search results
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
   useEffect(() => {
     // Retrieve username from localStorage
@@ -19,6 +20,22 @@ function Search() {
     if (storedUsername) {
       setUsername(storedUsername);
     }
+
+    // Fetch all restaurants on initial load
+    const fetchAllRestaurants = async () => {
+      try {
+        const response = await fetch(`${config.services.restaurantService}/restaurants/getRestaurants`);
+        if (!response.ok) throw new Error('Failed to fetch restaurants');
+        const data = await response.json();
+        setResults(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAllRestaurants();
   }, []);
 
   const handleInputChange = (e) => {
@@ -26,38 +43,36 @@ function Search() {
     setFilters({ ...filters, [name]: value });
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // Construct query parameters based on filters
+    const queryParams = new URLSearchParams();
+    if (filters.name) queryParams.append('name', filters.name);
+    if (filters.zipCode) queryParams.append('zipCode', filters.zipCode);
+    if (filters.categories) queryParams.append('categories', filters.categories);
+    if (filters.averageRating) queryParams.append('averageRating', filters.averageRating);
+
     try {
-      // Fetch restaurants from the API
-      const response = await fetch(`${config.services.restaurantService}/restaurants/getRestaurants`);
-      if (!response.ok) throw new Error('Failed to fetch restaurants');
+      const response = await fetch(`${config.services.restaurantService}/restaurants/search?${queryParams.toString()}`);
+      if (!response.ok) throw new Error('Failed to fetch search results');
       const data = await response.json();
-
-      // Filter the results locally based on the user's search filters
-      const filteredResults = data.filter((restaurant) => {
-        return (
-          (filters.name === '' || restaurant.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-          (filters.cuisine === '' || restaurant.cuisine.toLowerCase().includes(filters.cuisine.toLowerCase())) &&
-          (filters.type === '' || restaurant.type.toLowerCase().includes(filters.type.toLowerCase())) &&
-          (filters.priceRange === '' || restaurant.priceRange.toLowerCase() === filters.priceRange.toLowerCase()) &&
-          (filters.rating === '' || restaurant.rating >= parseFloat(filters.rating))
-        );
-      });
-
-      setResults(filteredResults);
-    } catch (error) {
-      console.error('Error fetching restaurants:', error);
+      setResults(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="search-container">
-      {/* Display the username in the welcome message */}
       {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
       <h1 className="search-title">Search Restaurants</h1>
 
-      {/* Search Filters */}
-      <form className="search-form">
+      <form className="search-form" onSubmit={handleSearch}>
         <input
           type="text"
           name="name"
@@ -68,59 +83,52 @@ function Search() {
         />
         <input
           type="text"
-          name="cuisine"
-          placeholder="Cuisine (e.g., Italian, Japanese)"
-          value={filters.cuisine}
+          name="zipCode"
+          placeholder="Zip Code"
+          value={filters.zipCode}
           onChange={handleInputChange}
           className="search-input"
         />
         <input
           type="text"
-          name="type"
-          placeholder="Food Type (e.g., Vegan, Vegetarian)"
-          value={filters.type}
+          name="categories"
+          placeholder="Categories (comma-separated)"
+          value={filters.categories}
           onChange={handleInputChange}
           className="search-input"
         />
-        <select
-          name="priceRange"
-          value={filters.priceRange}
-          onChange={handleInputChange}
-          className="search-input"
-        >
-          <option value="">Select Price Range</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
         <input
           type="number"
-          name="rating"
+          name="averageRating"
           placeholder="Minimum Rating (1-5)"
-          value={filters.rating}
+          value={filters.averageRating}
           onChange={handleInputChange}
           min="1"
           max="5"
           step="0.1"
           className="search-input"
         />
-        <button type="button" onClick={handleSearch} className="search-button">
+        <button type="submit" className="search-button">
           Search
         </button>
       </form>
 
-      {/* Search Results */}
       <div className="results-container">
         <h2>Results:</h2>
-        {results.length > 0 ? (
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p className="error-message">{error}</p>
+        ) : results.length > 0 ? (
           <ul>
             {results.map((restaurant) => (
               <li key={restaurant.id}>
                 <h3>{restaurant.name}</h3>
-                <p>Cuisine: {restaurant.cuisine}</p>
-                <p>Type: {restaurant.type}</p>
+                <p>Address: {restaurant.address}</p>
+                <p>Categories: {(restaurant.categories ?? []).join(', ')}</p>
+                <p>Average Rating: {restaurant.averageRating}</p>
                 <p>Price Range: {restaurant.priceRange}</p>
-                <p>Rating: {restaurant.rating}</p>
+                <p>Hours: {restaurant.hours}</p>
               </li>
             ))}
           </ul>
