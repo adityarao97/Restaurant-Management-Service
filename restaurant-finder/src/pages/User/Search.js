@@ -1,17 +1,17 @@
-// src/pages/User/Search.js
 import React, { useState, useEffect } from 'react';
+import './Search.css';
 
 function Search() {
-  const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState(null); // Stores the logged-in username
   const [filters, setFilters] = useState({
     name: '',
     cuisine: '',
     type: '',
     priceRange: '',
     rating: '',
-  });
+  }); // Stores search filters
 
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState([]); // Stores search results
 
   useEffect(() => {
     // Retrieve username from localStorage
@@ -51,17 +51,20 @@ function Search() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="search-container">
       {/* Display the username in the welcome message */}
-      {username && <h2>Welcome, {username}!</h2>}
-      <h1>Search Restaurants</h1>
-      <form style={{ marginBottom: '20px' }}>
+      {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
+      <h1 className="search-title">Search Restaurants</h1>
+
+      {/* Search Filters */}
+      <form className="search-form">
         <input
           type="text"
           name="name"
           placeholder="Restaurant Name"
           value={filters.name}
           onChange={handleInputChange}
+          className="search-input"
         />
         <input
           type="text"
@@ -69,6 +72,7 @@ function Search() {
           placeholder="Cuisine (e.g., Italian, Japanese)"
           value={filters.cuisine}
           onChange={handleInputChange}
+          className="search-input"
         />
         <input
           type="text"
@@ -76,8 +80,14 @@ function Search() {
           placeholder="Food Type (e.g., Vegan, Vegetarian)"
           value={filters.type}
           onChange={handleInputChange}
+          className="search-input"
         />
-        <select name="priceRange" value={filters.priceRange} onChange={handleInputChange}>
+        <select
+          name="priceRange"
+          value={filters.priceRange}
+          onChange={handleInputChange}
+          className="search-input"
+        >
           <option value="">Select Price Range</option>
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
@@ -92,11 +102,15 @@ function Search() {
           min="1"
           max="5"
           step="0.1"
+          className="search-input"
         />
-        <button type="button" onClick={handleSearch}>Search</button>
+        <button type="button" onClick={handleSearch} className="search-button">
+          Search
+        </button>
       </form>
 
-      <div>
+      {/* Search Results */}
+      <div className="results-container">
         <h2>Results:</h2>
         {results.length > 0 ? (
           <ul>
