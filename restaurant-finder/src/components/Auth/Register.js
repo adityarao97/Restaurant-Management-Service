@@ -8,7 +8,7 @@ function Register() {
     username: '',
     role: 'customer', // default role
     email: '',
-    password: ''
+    password: '',
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -29,7 +29,12 @@ function Register() {
           name: formData.username,
           email: formData.email,
           password: formData.password,
-          userTypeId: formData.role === 'admin' ? 2 : formData.role === 'business-owner' ? 3 : 1,
+          userTypeId:
+            formData.role === 'admin'
+              ? 2
+              : formData.role === 'business-owner'
+              ? 3
+              : 1,
         }),
       });
 
@@ -37,11 +42,13 @@ function Register() {
       const data = await response.json();
       console.log('Registered:', data);
 
-      // Store the username in localStorage
+      // Store the username in localStorage if needed
       localStorage.setItem('username', formData.username);
 
       setSuccess(true);
-      setTimeout(() => navigate('/search'), 2000); // Redirect to search after 2 seconds
+
+      // Redirect to the login page after a short delay
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError('Registration failed');
     }
@@ -53,7 +60,7 @@ function Register() {
       {error && <p className="error-message">{error}</p>}
       {success && (
         <p className="success-message">
-          Registration successful! Redirecting to search...
+          Registration successful! Redirecting to login...
         </p>
       )}
       <form onSubmit={handleSubmit} className="register-form">
