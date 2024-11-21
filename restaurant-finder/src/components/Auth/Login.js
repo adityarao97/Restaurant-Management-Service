@@ -1,7 +1,8 @@
-// src/components/Auth/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import config from '../../config/config';
+import { jwtDecode } from 'jwt-decode';
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -15,9 +16,10 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch(
-        `http://localhost:8081/api/user/login?email=${encodeURIComponent(
+        `${config.services.userService}/api/user/login?email=${encodeURIComponent(
           formData.email
         )}&password=${encodeURIComponent(formData.password)}`,
         {
@@ -29,14 +31,24 @@ function Login() {
       if (!response.ok) throw new Error('Login failed');
       const data = await response.json();
 
-      // Store username in localStorage
-      localStorage.setItem('username', data.name); // Assuming the response contains `name`
+      // Assuming the response contains a JWT token
+      const token = data.jwtToken;
+      if (token) {
+        // Decode the JWT token
+        const decodedToken = jwtDecode(token);
+        console.log('Decoded JWT:', decodedToken);
 
-      console.log('Logged in:', data);
+        // Store the token and user information in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', decodedToken.name); // Assuming the token contains a 'name' claim
 
-      // Redirect to the Search Restaurants page
-      navigate('/search');
+        // Redirect to the Search Restaurants page
+        navigate('/search');
+      } else {
+        throw new Error('Token not found in response');
+      }
     } catch (err) {
+      console.error('Error during login:', err.message);
       setError('Invalid email or password');
     }
   };

@@ -10,6 +10,7 @@ import BusinessOwnerDashboard from './pages/BusinessOwner/BusinessOwnerDashboard
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
+import AllRestaurants from '../src/pages/User/AllRestaurants'
 
 function App() {
   return (
@@ -20,8 +21,10 @@ function App() {
         <Route path="/restaurant/:id" element={<RestaurantDetails />} />
         <Route path="/business/dashboard" element={<BusinessOwnerDashboard />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/getAllRestaurants" element={<AllRestaurants />} />
         <Route path="/register" element={<Register />} />  {/* Add Register Route */}
         <Route path="/login" element={<Login />} />        {/* Add Login Route */}
+
       </Routes>
     </Router>
   );

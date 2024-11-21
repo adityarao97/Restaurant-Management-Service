@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Search.css';
-
+import config from '../../config/config';
 function Search() {
   const [username, setUsername] = useState(null); // Stores the logged-in username
   const [filters, setFilters] = useState({
@@ -29,7 +29,7 @@ function Search() {
   const handleSearch = async () => {
     try {
       // Fetch restaurants from the API
-      const response = await fetch('http://3.101.125.192:8080/restaurants/getRestaurants');
+      const response = await fetch(`${config.services.restaurantService}/restaurants/getRestaurants`);
       if (!response.ok) throw new Error('Failed to fetch restaurants');
       const data = await response.json();
 

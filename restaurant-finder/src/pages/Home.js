@@ -14,6 +14,7 @@ function Home() {
           <li><Link to="/search">Search Restaurants</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/register">Register</Link></li>
+          <li><Link to="/getAllRestaurants">getAllRestaurants</Link></li>
         </ul>
       </nav>
       <footer className="home-footer">

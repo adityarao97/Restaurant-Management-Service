@@ -1,0 +1,99 @@
+/* Container for all restaurants */
+.all-restaurants {
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+/* Title styling */
+.all-restaurants h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Grid layout for restaurant cards */
+.restaurant-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Individual restaurant card styling */
+.restaurant-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Restaurant name */
+.restaurant-card h3 {
+  background-color: #4CAF50;
+  color: #fff;
+  margin: 0;
+  padding: 15px;
+  font-size: 1.5em;
+}
+
+/* Restaurant details */
+.restaurant-card p {
+  padding: 10px 15px;
+  margin: 0;
+  color: #555;
+}
+
+/* Photos section */
+.photos {
+  padding: 10px 15px;
+}
+
+.photo-gallery {
+  display: flex;
+  overflow-x: auto;
+  padding-top: 10px;
+}
+
+.photo-gallery img {
+  height: 100px;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+/* Reviews section */
+.reviews {
+  padding: 10px 15px;
+  background-color: #f1f1f1;
+}
+
+.reviews ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.reviews li {
+  margin-bottom: 10px;
+}
+
+.reviews p {
+  margin: 5px 0;
+}
+
+.reviews strong {
+  color: #333;
+}
+
+/* Loading and error messages */
+.loading,
+.error {
+  text-align: center;
+  color: #888;
+  font-size: 1.2em;
+  padding: 20px;
+}
