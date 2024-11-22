@@ -41,12 +41,7 @@ function Login() {
         // Store the token and user information in localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('username', decodedToken.name); // Assuming the token contains a 'name' claim
-<<<<<<< HEAD
         localStorage.setItem('role', decodedToken.role);
-
-=======
->>>>>>> eb2a89379422bfed1e7fcc0b7c94b956b97c9a3c
-        // Redirect to the Search Restaurants page
         //navigate to the page based on role
         const role = localStorage.getItem('role');
         if(role==='RMS_Customer')
