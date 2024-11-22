@@ -5,16 +5,28 @@ import './Home.css';
 function Home() {
   return (
     <div className="home-container">
+      {/* Header */}
       <header className="home-header">
-        <h1>Restaurant Finder</h1>
-        <p>Discover the best restaurants around you!</p>
+        <div className="header-left">
+          <h1 className="logo">Restaurant Finder</h1>
+        </div>
+
+        {/* Navigation */}
+        <nav className="header-nav">
+          <ul>
+            <li><Link to="/search">Restaurants Search</Link></li>
+            <li><Link to="/login">Log In</Link></li>
+            <li><Link to="/register" className="sign-up-button">Sign Up</Link></li>
+          </ul>
+        </nav>
       </header>
-      <nav className="home-nav">
-        <ul>
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/register">Register</Link></li>
-        </ul>
-      </nav>
+
+      {/* Main content */}
+      <main className="home-content">
+        <h2>Discover the best restaurants around you!</h2>
+      </main>
+
+      {/* Footer */}
       <footer className="home-footer">
         <p>&copy; 2024 Restaurant Finder. All rights reserved.</p>
       </footer>
@@ -23,3 +35,4 @@ function Home() {
 }
 
 export default Home;
+
