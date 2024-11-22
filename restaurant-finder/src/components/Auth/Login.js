@@ -41,7 +41,6 @@ function Login() {
         // Store the token and user information in localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('username', decodedToken.name); // Assuming the token contains a 'name' claim
-
         // Redirect to the Search Restaurants page
         navigate('/search');
       } else {
