@@ -1,5 +1,6 @@
 // src/pages/BusinessOwner/BusinessOwnerDashboard.js
 import React, { useState } from 'react';
+import Search from '../User/Search';
 
 // Mock data for listings
 const mockListings = [
@@ -28,9 +29,9 @@ function BusinessOwnerDashboard() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <h1>Business Owner Dashboard</h1>
-
+      <Search/>
       <h2>Your Listings</h2>
       <ul>
         {listings.map((listing) => (
