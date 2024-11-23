@@ -6,11 +6,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Search from './pages/User/Search';
 import RestaurantDetails from './pages/User/RestaurantDetails';
+import CustomerDashboard from './pages/User/CustomerDashboard';
 import BusinessOwnerDashboard from './pages/BusinessOwner/BusinessOwnerDashboard';
 import AdminDashboard from './pages/Admin/AdminDashboard';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
-import AllRestaurants from '../src/pages/User/AllRestaurants'
 
 function App() {
   return (
@@ -19,9 +19,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/restaurant/:id" element={<RestaurantDetails />} />
+        <Route path="/customer/dashboard" element={<CustomerDashboard />} />
         <Route path="/business/dashboard" element={<BusinessOwnerDashboard />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/getAllRestaurants" element={<AllRestaurants />} />
         <Route path="/register" element={<Register />} />  {/* Add Register Route */}
         <Route path="/login" element={<Login />} />        {/* Add Login Route */}
 

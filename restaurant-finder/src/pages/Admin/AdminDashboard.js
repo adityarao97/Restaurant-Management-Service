@@ -1,5 +1,6 @@
 // src/pages/Admin/AdminDashboard.js
 import React, { useState } from 'react';
+import Search from '../User/Search';
 
 // Mock data for all listings
 const mockListings = [
@@ -29,9 +30,9 @@ function AdminDashboard() {
   const duplicateListings = checkDuplicates();
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <h1>Admin Dashboard</h1>
-
+      <Search/>
       <h2>All Listings</h2>
       <ul>
         {listings.map((listing) => (

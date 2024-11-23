@@ -1,6 +1,7 @@
 // src/components/Auth/Register.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import config from '../../config/config';
 import './Register.css';
 
 function Register() {
@@ -22,21 +23,24 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8081/api/user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.username,
-          email: formData.email,
-          password: formData.password,
-          userTypeId:
-            formData.role === 'admin'
-              ? 2
-              : formData.role === 'business-owner'
-              ? 3
-              : 1,
-        }),
-      });
+      const response = await fetch(
+        `${config.services.userService}/api/user`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.username,
+            email: formData.email,
+            password: formData.password,
+            userTypeId:
+              formData.role === 'admin'
+                ? 2
+                : formData.role === 'business-owner'
+                ? 3
+                : 1,
+          }),
+        }
+      );
 
       if (!response.ok) throw new Error('Registration failed');
       const data = await response.json();

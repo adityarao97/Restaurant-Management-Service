@@ -41,9 +41,15 @@ function Login() {
         // Store the token and user information in localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('username', decodedToken.name); // Assuming the token contains a 'name' claim
-
-        // Redirect to the Search Restaurants page
-        navigate('/search');
+        localStorage.setItem('role', decodedToken.role);
+        //navigate to the page based on role
+        const role = localStorage.getItem('role');
+        if(role==='RMS_Customer')
+          navigate('/customer/dashboard');
+        if(role==='RMS_Admin')
+          navigate('/admin/dashboard');
+        if(role==='RMS_Business')
+          navigate('/business/dashboard');
       } else {
         throw new Error('Token not found in response');
       }

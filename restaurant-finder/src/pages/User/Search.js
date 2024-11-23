@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Search.css';
 import config from '../../config/config';
+import AddReview from './AddReview';
 
 function Search() {
   const [username, setUsername] = useState(null); // Stores the logged-in username
@@ -13,6 +14,8 @@ function Search() {
   const [results, setResults] = useState([]); // Stores search results
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [activeReviewForm, setActiveReviewForm] = useState(null);
+
 
   useEffect(() => {
     // Retrieve username from localStorage
@@ -21,6 +24,7 @@ function Search() {
       setUsername(storedUsername);
     }
 
+    
     // Fetch all restaurants on initial load
     const fetchAllRestaurants = async () => {
       try {
@@ -38,6 +42,15 @@ function Search() {
     fetchAllRestaurants();
   }, []);
 
+
+  const handleReviewAdded = (updatedRestaurant) => {
+    setResults((prevResults) =>
+      prevResults.map((restaurant) =>
+        restaurant.id === updatedRestaurant.id ? updatedRestaurant : restaurant
+      )
+    );
+    setActiveReviewForm(null);
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
@@ -122,15 +135,48 @@ function Search() {
         ) : results.length > 0 ? (
           <ul>
             {results.map((restaurant) => (
-              <li key={restaurant.id}>
-                <h3>{restaurant.name}</h3>
-                <p>Address: {restaurant.address}</p>
-                <p>Categories: {(restaurant.categories ?? []).join(', ')}</p>
-                <p>Average Rating: {restaurant.averageRating}</p>
-                <p>Price Range: {restaurant.priceRange}</p>
-                <p>Hours: {restaurant.hours}</p>
-              </li>
-            ))}
+  <li key={restaurant.id}>
+    <h3>{restaurant.name}</h3>
+    <p>Address: {restaurant.address}</p>
+    <p>Categories: {(restaurant.categories ?? []).join(', ')}</p>
+    <p>Average Rating: {restaurant.averageRating}</p>
+    <p>Price Range: {restaurant.priceRange}</p>
+    <p>Hours: {restaurant.hours}</p>
+
+    {/* Display existing reviews */}
+    <div className="reviews-section">
+      <h4>Reviews:</h4>
+      {restaurant.reviews && restaurant.reviews.length > 0 ? (
+        <ul>
+          {restaurant.reviews.map((review, index) => (
+            <li key={index}>
+              <p>
+                <strong>{review.userName}</strong> ({new Date(review.timestamp).toLocaleString()}):
+              </p>
+              <p>Rating: {review.rating}</p>
+              <p>{review.comment}</p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No reviews yet.</p>
+      )}
+    </div>
+
+    {/* Toggle Add Review form */}
+    {activeReviewForm === restaurant.id ? (
+      <AddReview
+        restaurantId={restaurant.id}
+        onReviewAdded={handleReviewAdded}
+      />
+    ) : (
+      <button onClick={() => setActiveReviewForm(restaurant.id)}>
+        Add Review
+      </button>
+    )}
+  </li>
+))}
+
           </ul>
         ) : (
           <p>No restaurants found with the given criteria.</p>
