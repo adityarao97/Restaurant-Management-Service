@@ -1,5 +1,4 @@
 // src/pages/Admin/AdminDashboard.js
-import React, { useState } from 'react';
 import Search from './Search';
 import '../../common.css';
 
