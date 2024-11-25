@@ -53,14 +53,6 @@ public class RestaurantController {
         return restaurantService.findByCategoriesIn(categories);
     }
 
-    // Endpoint to search for restaurants by name and categories
-    @GetMapping("/searchByNameAndCategories")
-    public List<Restaurant> searchByNameAndCategories(
-            @RequestParam String name,
-            @RequestParam List<String> categories) {
-        return restaurantService.findByNameAndCategories(name, categories);
-    }
-
     // Endpoint to get details of a single restaurant by ID
     @GetMapping("/{id}")
     public Restaurant getRestaurantDetails(@PathVariable String id) {
