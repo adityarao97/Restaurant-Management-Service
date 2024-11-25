@@ -87,4 +87,9 @@ public class RestaurantController {
         return restaurantService.searchRestaurants(name, zipCode, categories, averageRating);
     }
 
+    @GetMapping("/byBusinessOwner")
+    public List<Restaurant> getRestaurantsByBusinessOwner(@RequestParam String businessOwnerId) {
+        return restaurantService.findByBusinessOwnerId(businessOwnerId);
+    }
+
 }

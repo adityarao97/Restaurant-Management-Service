@@ -20,12 +20,12 @@ public interface RestaurantService {
 
     List<Restaurant> findByCategoriesIn(List<String> categories);
 
-    List<Restaurant> findByNameAndCategories(String name, List<String> categories);
 
-    Restaurant getRestaurantDetails(String id); // New method
+    Restaurant getRestaurantDetails(String id);
 
-    Restaurant addReview(String restaurantId, Review review); // New method
+    Restaurant addReview(String restaurantId, Review review);
 
     List<Restaurant> searchRestaurants(Optional<String> name, Optional<String> zipCode, Optional<List<String>> categories, Optional<Double> averageRating);
 
+    List<Restaurant> findByBusinessOwnerId(String businessOwnerId);
 }
