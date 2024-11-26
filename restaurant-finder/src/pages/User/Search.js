@@ -60,16 +60,27 @@ function Search() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
-    // Construct query parameters based on filters
-    const queryParams = new URLSearchParams();
-    if (filters.name) queryParams.append('name', filters.name);
-    if (filters.zipCode) queryParams.append('zipCode', filters.zipCode);
-    if (filters.categories) queryParams.append('categories', filters.categories);
-    if (filters.averageRating) queryParams.append('averageRating', filters.averageRating);
-
+  
     try {
-      const response = await fetch(`${config.services.restaurantService}/restaurants/search?${queryParams.toString()}`);
+      let response;
+      if (filters.zipCode && !filters.name && !filters.categories && !filters.averageRating) {
+        // Call external API when only zipCode is provided
+        response = await fetch(
+          `${config.services.restaurantService}/restaurants/searchByZipCode?zipCode=${filters.zipCode}&provider=fourSquareSearchStrategy`
+        );
+      } else {
+        // Existing search logic
+        const queryParams = new URLSearchParams();
+        if (filters.name) queryParams.append('name', filters.name);
+        if (filters.zipCode) queryParams.append('zipCode', filters.zipCode);
+        if (filters.categories) queryParams.append('categories', filters.categories);
+        if (filters.averageRating) queryParams.append('averageRating', filters.averageRating);
+  
+        response = await fetch(
+          `${config.services.restaurantService}/restaurants/search?${queryParams.toString()}`
+        );
+      }
+  
       if (!response.ok) throw new Error('Failed to fetch search results');
       const data = await response.json();
       setResults(data);
@@ -79,6 +90,7 @@ function Search() {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="search-container">
