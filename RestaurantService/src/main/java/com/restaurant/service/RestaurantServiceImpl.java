@@ -59,11 +59,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public void deleteRestaurantById(String id) {
-        if (!restaurantRepository.existsById(id)) {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        if (restaurant.isPresent()) {
+            restaurantRepository.deleteById(id);
+        } else {
             throw new RuntimeException("Restaurant not found with ID: " + id);
         }
-        restaurantRepository.deleteById(id);
     }
+
 
     @Override
     public Restaurant addReview(String restaurantId, Review review) {
