@@ -6,6 +6,7 @@ import com.restaurant.processor.FourSquareParser;
 import com.restaurant.service.FourSquareService;
 import com.restaurant.service.GooglePlacesService;
 import com.restaurant.service.RestaurantService;
+import com.restaurant.util.SearchContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,7 @@ public class RestaurantController {
     RestaurantService restaurantService;
 
     @Autowired
-    FourSquareService fourSquareService;
-
-    @Autowired
-    GooglePlacesService googlePlacesService;
-
-    @Autowired
-    private FourSquareParser foursquareParser;
+    private SearchContext searchContext;
 
     // Endpoint to get all restaurants
     @GetMapping("/getRestaurants")
@@ -53,14 +48,6 @@ public class RestaurantController {
         return restaurantService.findByCategoriesIn(categories);
     }
 
-    // Endpoint to search for restaurants by name and categories
-    @GetMapping("/searchByNameAndCategories")
-    public List<Restaurant> searchByNameAndCategories(
-            @RequestParam String name,
-            @RequestParam List<String> categories) {
-        return restaurantService.findByNameAndCategories(name, categories);
-    }
-
     // Endpoint to get details of a single restaurant by ID
     @GetMapping("/{id}")
     public Restaurant getRestaurantDetails(@PathVariable String id) {
@@ -74,13 +61,8 @@ public class RestaurantController {
     }
 
     @GetMapping("/searchByZipCode")
-    public List<Restaurant> searchByZipCode(@RequestParam String zipCode) {
-        return fourSquareService.searchRestaurantsByZipCode(zipCode);
-    }
-
-    @GetMapping("/gsearchByZipCode")
-    public List<Restaurant> gsearchByZipCode(@RequestParam String zipCode) {
-        return googlePlacesService.searchRestaurantsByZipCode(zipCode);
+    public List<Restaurant> searchByZipCode(@RequestParam String zipCode, @RequestParam String provider) {
+        return searchContext.search(provider, zipCode);
     }
 
     @GetMapping("/search")
@@ -93,6 +75,11 @@ public class RestaurantController {
             throw new IllegalArgumentException("At least one search parameter must be provided");
         }
         return restaurantService.searchRestaurants(name, zipCode, categories, averageRating);
+    }
+
+    @GetMapping("/byBusinessOwner")
+    public List<Restaurant> getRestaurantsByBusinessOwner(@RequestParam String businessOwnerId) {
+        return restaurantService.findByBusinessOwnerId(businessOwnerId);
     }
 
 }

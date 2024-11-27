@@ -30,6 +30,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.saveAll(restaurants);
     }
 
+    @Override
+    public List<Restaurant> findByBusinessOwnerId(String businessOwnerId) {
+        return restaurantRepository.findByBusinessOwnerId(businessOwnerId);
+    }
+
     public List<Restaurant> findAllRestaurants() {
        return restaurantRepository.findAll();
     }

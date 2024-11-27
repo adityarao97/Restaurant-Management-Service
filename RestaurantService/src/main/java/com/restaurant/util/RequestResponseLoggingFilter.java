@@ -10,6 +10,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Enumeration;
 
 @Component
 public class RequestResponseLoggingFilter implements Filter {
@@ -43,15 +44,35 @@ public class RequestResponseLoggingFilter implements Filter {
     }
 
     private void logRequest(ContentCachingRequestWrapper request) throws IOException {
-        String requestBody = new String(request.getContentAsByteArray(), StandardCharsets.UTF_8);
+        // Log method and URI
         System.out.println("Request Method: " + request.getMethod());
         System.out.println("Request URI: " + request.getRequestURI());
+
+        // Log request headers
+        System.out.println("Request Headers:");
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            System.out.println(headerName + ": " + request.getHeader(headerName));
+        }
+
+        // Log request body
+        String requestBody = new String(request.getContentAsByteArray(), StandardCharsets.UTF_8);
         System.out.println("Request Body: " + requestBody);
     }
 
     private void logResponse(ContentCachingResponseWrapper response) throws IOException {
-        String responseBody = new String(response.getContentAsByteArray(), StandardCharsets.UTF_8);
+        // Log status code
         System.out.println("Response Status: " + response.getStatus());
+
+        // Log response headers
+        System.out.println("Response Headers:");
+        response.getHeaderNames().forEach(headerName ->
+                System.out.println(headerName + ": " + response.getHeader(headerName))
+        );
+
+        // Log response body
+        String responseBody = new String(response.getContentAsByteArray(), StandardCharsets.UTF_8);
         System.out.println("Response Body: " + responseBody);
     }
 

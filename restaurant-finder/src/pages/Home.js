@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
+  // Array of slides
+  const slides = [
+    {
+      image: '/images/slide1.png',
+    },
+    {
+      image: '/images/slide2.png',
+    },
+    {
+      image: '/images/slide3.png',
+    },
+  ];
+
+  // State for current slide
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Automatic slide change every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+    }, 5000); // 5 seconds
+    return () => clearInterval(interval); // Cleanup interval
+  }, [slides.length]);
+
   return (
     <div className="home-container">
       {/* Header */}
@@ -14,12 +38,20 @@ function Home() {
         {/* Navigation */}
         <nav className="header-nav">
           <ul>
-            <li><Link to="/search">Restaurants Search</Link></li>
             <li><Link to="/login">Log In</Link></li>
             <li><Link to="/register" className="sign-up-button">Sign Up</Link></li>
           </ul>
         </nav>
       </header>
+
+      {/* Photo Slider */}
+      <div className="photo-slider">
+        <img
+          src={slides[currentSlide].image}
+          alt="Restaurant slide"
+          className="slider-image"
+        />
+      </div>
 
       {/* Main content */}
       <main className="home-content">
@@ -35,4 +67,3 @@ function Home() {
 }
 
 export default Home;
-

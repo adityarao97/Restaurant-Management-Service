@@ -1,10 +1,8 @@
-/* src/pages/Home.css */
-
 /* General styling for the container */
 .home-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* Full viewport height */
   font-family: 'Arial', sans-serif;
   color: white;
   background: linear-gradient(135deg, #f5af19, #f12711); /* Orange gradient background */
@@ -12,6 +10,7 @@
 
 /* Header styling */
 .home-header {
+  flex-shrink: 0; /* Prevent the header from shrinking */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,26 +62,71 @@
   background: #a81818;
 }
 
+/* --- Photo Slider Section --- */
+.photo-slider {
+  flex-grow: 1; /* Make the slider take up the remaining space */
+  width: 100%; /* Full width */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slider-image {
+  width: 100%; /* Image fills the width */
+  height: 100%; /* Image fills the height */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+
 /* Main content styling */
 .home-content {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  flex-grow: 1;
-  padding: 20px;
+  padding: 10px; /* Reduced padding to make it smaller */
+  color: white; /* Original white text preserved */
 }
 
 .home-content h2 {
-  font-size: 2.5em;
-  color: white;
+  font-size: 1.8em; /* Reduced font size */
+  margin: 0;
 }
 
 /* Footer styling */
 .home-footer {
+  flex-shrink: 0; /* Prevent the footer from shrinking */
   background: #cc5200; /* Rich, darker orange for the footer */
   color: white;
   text-align: center;
-  padding: 10px;
-  font-size: 0.9em;
+  padding: 5px; /* Reduced padding to make the footer smaller */
+  font-size: 0.8em; /* Reduced font size */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .home-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .home-content h2 {
+    font-size: 1.5em; /* Smaller font size for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .home-content h2 {
+    font-size: 1.3em; /* Even smaller font size for mobile */
+  }
+
+  .home-footer {
+    padding: 3px; /* Further reduced padding for mobile */
+    font-size: 0.7em; /* Smaller font size for the footer */
+  }
 }
