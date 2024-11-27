@@ -1,0 +1,173 @@
+/* Ensure html and body elements take full height */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+}
+
+/* General container styles */
+.common-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100%; /* Ensure content can exceed the viewport height */
+  width: 100%;
+  background: linear-gradient(135deg, #f5af19, #f12711) !important; /* Gradient background */
+  color: #333;    /* Dark text for readability */
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto !important; /* Allow vertical scrolling */
+}
+
+.welcome-message {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Title and Header */
+.common-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Listings section */
+.ul-custom {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 80% !important;
+}
+
+/* Each list item */
+.li-custom {
+  background-color: rgba(255, 255, 255, 0.9); /* Slight white background for each listing */
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between; /* Space out the elements and push buttons to the right */
+  align-items: center;
+  width: 100%;
+}
+
+/* Trim the text content */
+li span {
+  margin-right: 20px;
+  max-width: 200px;  /* Set a max width for text */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Edit/Delete buttons */
+.buttonEdit {
+  background-color: #f5af19;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease !important;
+  margin-right: 10px !important;
+}
+
+.buttonDelete {
+  background-color: #f5af19;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease !important;
+}
+
+button:hover {
+  background-color: #f12711;
+}
+
+/* Input and form elements */
+input,
+textarea {
+  width: 95% !important;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #f5af19;
+  outline: none;
+}
+
+label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Form for adding a new listing */
+form {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin-top: 30px;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+form button {
+  width: 95% !important; 
+  padding: 12px;
+  background-color: #f12711;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #f5af19;
+}
+
+/* Styling for error message if any */
+.error-message {
+  color: red;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+/* Adjust layout and text appearance for smaller screens */
+@media (max-width: 768px) {
+  .common-title {
+    font-size: 2rem;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    margin-top: 10px;
+  }
+}

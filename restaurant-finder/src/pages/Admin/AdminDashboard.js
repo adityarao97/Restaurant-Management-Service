@@ -1,17 +1,33 @@
 // src/pages/Admin/AdminDashboard.js
-import React, { useState } from 'react';
-import Search from '../User/Search';
+import React, { useState, useEffect } from 'react';
+import config from "../../config/config";
+import "./admin.css";
 
-// Mock data for all listings
-const mockListings = [
-  { id: 1, name: "Sushi Place", location: "123 Sushi St" },
-  { id: 2, name: "Pasta House", location: "456 Pasta Rd" },
-  { id: 3, name: "Sushi Place", location: "123 Sushi St" }, // Duplicate example
-];
 
 function AdminDashboard() {
-  const [listings, setListings] = useState(mockListings);
+  const [listings, setListings] = useState([]);
+  const [error, setError] = useState(null);
+  const [username, setUsername] = useState(null);
 
+useEffect(() => {
+  const storedUsername = localStorage.getItem('username');
+  if (storedUsername) {
+    setUsername(storedUsername);
+  }
+  const fetchAllListings = async () => {
+    try {
+      const response = await fetch(`${config.services.restaurantService}/restaurants/getRestaurants`);
+      if (!response.ok) throw new Error("Failed to fetch restaurants");
+      const data = await response.json();
+      setListings(data);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+  fetchAllListings();
+}, []);
+
+  
   const handleDeleteListing = (id) => {
     setListings(listings.filter((listing) => listing.id !== id));
   };
@@ -30,13 +46,12 @@ function AdminDashboard() {
   const duplicateListings = checkDuplicates();
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      <Search/>
+    <div className='common-container'>
+      {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
       <h2>All Listings</h2>
-      <ul>
+      <ul className="ul-custom">
         {listings.map((listing) => (
-          <li key={listing.id}>
+          <li className="li-custom" key={listing.id}>
             {listing.name} - {listing.location}
             <button onClick={() => handleDeleteListing(listing.id)}>Delete</button>
           </li>
@@ -48,9 +63,9 @@ function AdminDashboard() {
         duplicateListings.map((group, index) => (
           <div key={index}>
             <p>Duplicate Group:</p>
-            <ul>
+            <ul className="ul-custom">
               {group.map((listing) => (
-                <li key={listing.id}>{listing.name} - {listing.location}</li>
+                <li  className="li-custom" key={listing.id}>{listing.name} - {listing.location}</li>
               ))}
             </ul>
           </div>
