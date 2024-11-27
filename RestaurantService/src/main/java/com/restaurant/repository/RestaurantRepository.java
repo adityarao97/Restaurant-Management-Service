@@ -18,6 +18,9 @@ public interface RestaurantRepository extends MongoRepository<Restaurant, String
     @Override
     <S extends Restaurant> S save(S entity);
 
+    @Override
+    void deleteById(String s);
+
     List<Restaurant> findByBusinessOwnerId(String businessOwnerId);
 
     // Find by Name (exact or partial match)

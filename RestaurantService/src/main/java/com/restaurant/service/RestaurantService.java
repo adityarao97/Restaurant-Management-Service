@@ -20,6 +20,7 @@ public interface RestaurantService {
 
     List<Restaurant> findByCategoriesIn(List<String> categories);
 
+    void deleteRestaurantById(String id);
 
     Restaurant getRestaurantDetails(String id);
 

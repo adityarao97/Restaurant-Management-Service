@@ -29,6 +29,13 @@ public class RestaurantController {
         return restaurantService.findAllRestaurants();
     }
 
+    // Endpoint to delete a restaurant by ID
+    @DeleteMapping("/{id}")
+    public String deleteRestaurantById(@PathVariable String id) {
+        restaurantService.deleteRestaurantById(id);
+        return "Restaurant with ID: " + id + " has been deleted.";
+    }
+
     // Endpoint to save a new restaurant
     @PostMapping("/saveRestaurant")
     public Restaurant saveRestaurant(@RequestBody Restaurant restaurant) {
