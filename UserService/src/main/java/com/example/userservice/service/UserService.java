@@ -11,4 +11,5 @@ public interface UserService {
     public List<User> getUser(User user);
     public void deleteUser(User user);
     public Session login(String email, String password);
+    public void logout(String jwtToken);
 }
