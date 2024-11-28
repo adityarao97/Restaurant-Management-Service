@@ -8,6 +8,8 @@ import com.restaurant.service.GooglePlacesService;
 import com.restaurant.service.RestaurantService;
 import com.restaurant.util.SearchContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +30,19 @@ public class RestaurantController {
     public List<Restaurant> getAllRestaurants() {
         return restaurantService.findAllRestaurants();
     }
+
+    // Endpoint to delete a restaurant by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRestaurant(@PathVariable String id) {
+        try {
+            restaurantService.deleteRestaurantById(id);
+            return ResponseEntity.ok("Restaurant with ID: " + id + " has been deleted.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
+    }
+
 
     // Endpoint to save a new restaurant
     @PostMapping("/saveRestaurant")
