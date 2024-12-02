@@ -73,4 +73,9 @@ public class UserServiceImpl implements UserService {
         user.setUserType(userType.getName());
         return sessionService.createOrUpdateSession(user);
     }
+
+    @Override
+    public void logout(String jwtToken) {
+        sessionService.deleteSession(jwtToken);
+    }
 }

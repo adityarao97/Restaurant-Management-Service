@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import config from "../../config/config";
 import "./businessOwner.css";
 
@@ -20,6 +21,7 @@ function BusinessOwnerDashboard() {
     hours: "",
   });
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -147,10 +149,43 @@ function BusinessOwnerDashboard() {
     }));
   };
 
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `${config.services.userService}/api/user/logout?token=${token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) throw new Error("error in logout api");
+    navigate("/");
+  };
+
   return (
     <div className="common-container">
         {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
       <h2>Your Listings</h2>
+      <button
+        onClick={handleLogout} // Function to handle logout
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          padding: "10px 20px",
+          backgroundColor: "#f12711",
+          color: "white",
+          border: "none",
+          fontSize: "1rem",
+          cursor: "pointer",
+          borderRadius: "5px",
+          transition: "background-color 0.3s ease",
+        }}
+      >
+        Logout
+      </button>
       <ul className="ul-custom">
         {listings.map((listing) => (
           <li className="li-custom" key={listing.id}>

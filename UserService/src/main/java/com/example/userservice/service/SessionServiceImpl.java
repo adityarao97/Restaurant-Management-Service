@@ -4,11 +4,13 @@ import com.example.userservice.config.jwt.JwtTokenGenerator;
 import com.example.userservice.entity.Session;
 import com.example.userservice.entity.User;
 import com.example.userservice.repository.SessionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class SessionServiceImpl implements SessionService {
@@ -35,7 +37,12 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void deleteSession(Session session) {
-
+    public void deleteSession(String token) {
+        Optional<Session> sessionOptional = sessionRepository.findByJwtToken(token);
+        if(sessionOptional.isPresent()){
+            sessionRepository.delete(sessionOptional.get());
+        } else {
+            throw new EntityNotFoundException("Session not found or already logged out");
+        }
     }
 }
