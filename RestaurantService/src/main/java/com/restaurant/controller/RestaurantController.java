@@ -23,7 +23,7 @@ public class RestaurantController {
     RestaurantService restaurantService;
 
     @Autowired
-    private SearchContext searchContext;
+    SearchContext searchContext;
 
     // Endpoint to get all restaurants
     @GetMapping("/getRestaurants")
