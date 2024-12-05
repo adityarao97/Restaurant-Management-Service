@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Search.css';
 import config from '../../config/config';
 import AddReview from './AddReview';
@@ -15,6 +16,8 @@ function Search() {
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
   const [activeReviewForm, setActiveReviewForm] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Retrieve username from localStorage
@@ -60,18 +63,27 @@ function Search() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
-    // Construct query parameters based on filters
-    const queryParams = new URLSearchParams();
-    if (filters.name) queryParams.append('name', filters.name);
-    if (filters.zipCode) queryParams.append('zipCode', filters.zipCode);
-    if (filters.categories) queryParams.append('categories', filters.categories);
-    if (filters.averageRating) queryParams.append('averageRating', filters.averageRating);
-
+  
     try {
-      const response = await fetch(
-        `${config.services.restaurantService}/restaurants/search?${queryParams.toString()}`
-      );
+      let response;
+      if (filters.zipCode && !filters.name && !filters.categories && !filters.averageRating) {
+        // Call external API when only zipCode is provided
+        response = await fetch(
+          `${config.services.restaurantService}/restaurants/searchByZipCode?zipCode=${filters.zipCode}&provider=fourSquareSearchStrategy`
+        );
+      } else {
+        // Existing search logic
+        const queryParams = new URLSearchParams();
+        if (filters.name) queryParams.append('name', filters.name);
+        if (filters.zipCode) queryParams.append('zipCode', filters.zipCode);
+        if (filters.categories) queryParams.append('categories', filters.categories);
+        if (filters.averageRating) queryParams.append('averageRating', filters.averageRating);
+  
+        response = await fetch(
+          `${config.services.restaurantService}/restaurants/search?${queryParams.toString()}`
+        );
+      }
+  
       if (!response.ok) throw new Error('Failed to fetch search results');
       const data = await response.json();
       setResults(data);
@@ -82,12 +94,44 @@ function Search() {
     }
   };
 
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token")
+    const response = await fetch(
+      `${config.services.userService}/api/user/logout?token=${token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if(!response.ok) throw new Error('error in logout api');
+    navigate('/');
+  }
+  
+
   return (
     <div className="search-container">
-      <header className="search-header">
-        <h1 className="welcome-message">Welcome, {username}!</h1>
-      </header>
-
+      {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
+      <h1 className="search-title">Search Restaurants</h1>
+      <button
+    onClick={handleLogout} // Function to handle logout
+    style={{
+      position: 'absolute',
+      top: '20px',
+      right: '20px',
+      padding: '10px 20px',
+      backgroundColor: '#f12711',
+      color: 'white',
+      border: 'none',
+      fontSize: '1rem',
+      cursor: 'pointer',
+      borderRadius: '5px',
+      transition: 'background-color 0.3s ease',
+    }}
+  >
+    Logout
+  </button>
       <form className="search-form" onSubmit={handleSearch}>
         <input
           type="text"

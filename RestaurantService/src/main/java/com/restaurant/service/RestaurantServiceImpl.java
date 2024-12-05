@@ -30,6 +30,11 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.saveAll(restaurants);
     }
 
+    @Override
+    public List<Restaurant> findByBusinessOwnerId(String businessOwnerId) {
+        return restaurantRepository.findByBusinessOwnerId(businessOwnerId);
+    }
+
     public List<Restaurant> findAllRestaurants() {
        return restaurantRepository.findAll();
     }
@@ -51,6 +56,17 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurant not found with ID: " + id));
     }
+
+    @Override
+    public void deleteRestaurantById(String id) {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        if (restaurant.isPresent()) {
+            restaurantRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Restaurant not found with ID: " + id);
+        }
+    }
+
 
     @Override
     public Restaurant addReview(String restaurantId, Review review) {

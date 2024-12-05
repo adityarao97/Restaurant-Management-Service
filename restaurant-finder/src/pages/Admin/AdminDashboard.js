@@ -1,19 +1,46 @@
 // src/pages/Admin/AdminDashboard.js
-import React, { useState } from 'react';
-import Search from '../User/Search';
-
-// Mock data for all listings
-const mockListings = [
-  { id: 1, name: "Sushi Place", location: "123 Sushi St" },
-  { id: 2, name: "Pasta House", location: "456 Pasta Rd" },
-  { id: 3, name: "Sushi Place", location: "123 Sushi St" }, // Duplicate example
-];
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import config from "../../config/config";
+import "./admin.css";
 
 function AdminDashboard() {
-  const [listings, setListings] = useState(mockListings);
+  const [listings, setListings] = useState([]);
+  const [error, setError] = useState(null);
+  const [username, setUsername] = useState(null);
+  const navigate = useNavigate();
 
-  const handleDeleteListing = (id) => {
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+    const fetchAllListings = async () => {
+      try {
+        const response = await fetch(
+          `${config.services.restaurantService}/restaurants/getRestaurants`
+        );
+        if (!response.ok) throw new Error("Failed to fetch restaurants");
+        const data = await response.json();
+        setListings(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchAllListings();
+  }, []);
+
+  const handleDeleteListing = async (id) => {
     setListings(listings.filter((listing) => listing.id !== id));
+    const response = await fetch(
+      `${config.services.restaurantService}/restaurants/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   };
 
   const checkDuplicates = () => {
@@ -27,18 +54,52 @@ function AdminDashboard() {
     return Object.values(duplicates).filter((group) => group.length > 1);
   };
 
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `${config.services.userService}/api/user/logout?token=${token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) throw new Error("error in logout api");
+    navigate("/");
+  };
+
   const duplicateListings = checkDuplicates();
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      <Search/>
+    <div className="common-container">
+      {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
       <h2>All Listings</h2>
-      <ul>
+      <button
+        onClick={handleLogout} // Function to handle logout
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          padding: "10px 20px",
+          backgroundColor: "#f12711",
+          color: "white",
+          border: "none",
+          fontSize: "1rem",
+          cursor: "pointer",
+          borderRadius: "5px",
+          transition: "background-color 0.3s ease",
+        }}
+      >
+        Logout
+      </button>
+      <ul className="ul-custom">
         {listings.map((listing) => (
-          <li key={listing.id}>
-            {listing.name} - {listing.location}
-            <button onClick={() => handleDeleteListing(listing.id)}>Delete</button>
+          <li className="li-custom" key={listing.id}>
+            {listing.name} - {listing.address} - {listing.description} - {listing.contactInfo}
+            <button onClick={() => handleDeleteListing(listing.id)}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>
@@ -48,9 +109,11 @@ function AdminDashboard() {
         duplicateListings.map((group, index) => (
           <div key={index}>
             <p>Duplicate Group:</p>
-            <ul>
+            <ul className="ul-custom">
               {group.map((listing) => (
-                <li key={listing.id}>{listing.name} - {listing.location}</li>
+                <li className="li-custom" key={listing.id}>
+                  {listing.name} - {listing.address}
+                </li>
               ))}
             </ul>
           </div>

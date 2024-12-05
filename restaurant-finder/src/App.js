@@ -22,9 +22,8 @@ function App() {
         <Route path="/customer/dashboard" element={<CustomerDashboard />} />
         <Route path="/business/dashboard" element={<BusinessOwnerDashboard />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/register" element={<Register />} />  {/* Add Register Route */}
-        <Route path="/login" element={<Login />} />        {/* Add Login Route */}
-
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );
