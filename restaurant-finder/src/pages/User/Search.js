@@ -16,7 +16,6 @@ function Search() {
   const [error, setError] = useState(null); // Error state
   const [activeReviewForm, setActiveReviewForm] = useState(null);
 
-
   useEffect(() => {
     // Retrieve username from localStorage
     const storedUsername = localStorage.getItem('username');
@@ -24,11 +23,12 @@ function Search() {
       setUsername(storedUsername);
     }
 
-    
     // Fetch all restaurants on initial load
     const fetchAllRestaurants = async () => {
       try {
-        const response = await fetch(`${config.services.restaurantService}/restaurants/getRestaurants`);
+        const response = await fetch(
+          `${config.services.restaurantService}/restaurants/getRestaurants`
+        );
         if (!response.ok) throw new Error('Failed to fetch restaurants');
         const data = await response.json();
         setResults(data);
@@ -42,7 +42,6 @@ function Search() {
     fetchAllRestaurants();
   }, []);
 
-
   const handleReviewAdded = (updatedRestaurant) => {
     setResults((prevResults) =>
       prevResults.map((restaurant) =>
@@ -51,6 +50,7 @@ function Search() {
     );
     setActiveReviewForm(null);
   };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilters({ ...filters, [name]: value });
@@ -69,7 +69,9 @@ function Search() {
     if (filters.averageRating) queryParams.append('averageRating', filters.averageRating);
 
     try {
-      const response = await fetch(`${config.services.restaurantService}/restaurants/search?${queryParams.toString()}`);
+      const response = await fetch(
+        `${config.services.restaurantService}/restaurants/search?${queryParams.toString()}`
+      );
       if (!response.ok) throw new Error('Failed to fetch search results');
       const data = await response.json();
       setResults(data);
@@ -82,8 +84,9 @@ function Search() {
 
   return (
     <div className="search-container">
-      {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
-      <h1 className="search-title">Search Restaurants</h1>
+      <header className="search-header">
+        <h1 className="welcome-message">Welcome, {username}!</h1>
+      </header>
 
       <form className="search-form" onSubmit={handleSearch}>
         <input
@@ -127,7 +130,6 @@ function Search() {
       </form>
 
       <div className="results-container">
-        <h2>Results:</h2>
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
@@ -135,48 +137,48 @@ function Search() {
         ) : results.length > 0 ? (
           <ul>
             {results.map((restaurant) => (
-  <li key={restaurant.id}>
-    <h3>{restaurant.name}</h3>
-    <p>Address: {restaurant.address}</p>
-    <p>Categories: {(restaurant.categories ?? []).join(', ')}</p>
-    <p>Average Rating: {restaurant.averageRating}</p>
-    <p>Price Range: {restaurant.priceRange}</p>
-    <p>Hours: {restaurant.hours}</p>
+              <li key={restaurant.id} className="result-item">
+                <h3>{restaurant.name}</h3>
+                <p>Address: {restaurant.address}</p>
+                <p>Categories: {(restaurant.categories ?? []).join(', ')}</p>
+                <p>Average Rating: {restaurant.averageRating}</p>
+                <p>Price Range: {restaurant.priceRange}</p>
+                <p>Hours: {restaurant.hours}</p>
 
-    {/* Display existing reviews */}
-    <div className="reviews-section">
-      <h4>Reviews:</h4>
-      {restaurant.reviews && restaurant.reviews.length > 0 ? (
-        <ul>
-          {restaurant.reviews.map((review, index) => (
-            <li key={index}>
-              <p>
-                <strong>{review.userName}</strong> ({new Date(review.timestamp).toLocaleString()}):
-              </p>
-              <p>Rating: {review.rating}</p>
-              <p>{review.comment}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No reviews yet.</p>
-      )}
-    </div>
+                <div className="reviews-section">
+                  <h4>Reviews:</h4>
+                  {restaurant.reviews && restaurant.reviews.length > 0 ? (
+                    <ul>
+                      {restaurant.reviews.map((review, index) => (
+                        <li key={index}>
+                          <p>
+                            <strong>{review.userName}</strong> ({new Date(review.timestamp).toLocaleString()}):
+                          </p>
+                          <p>Rating: {review.rating}</p>
+                          <p>{review.comment}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No reviews yet.</p>
+                  )}
+                </div>
 
-    {/* Toggle Add Review form */}
-    {activeReviewForm === restaurant.id ? (
-      <AddReview
-        restaurantId={restaurant.id}
-        onReviewAdded={handleReviewAdded}
-      />
-    ) : (
-      <button onClick={() => setActiveReviewForm(restaurant.id)}>
-        Add Review
-      </button>
-    )}
-  </li>
-))}
-
+                {activeReviewForm === restaurant.id ? (
+                  <AddReview
+                    restaurantId={restaurant.id}
+                    onReviewAdded={handleReviewAdded}
+                  />
+                ) : (
+                  <button
+                    className="add-review-button"
+                    onClick={() => setActiveReviewForm(restaurant.id)}
+                  >
+                    Add Review
+                  </button>
+                )}
+              </li>
+            ))}
           </ul>
         ) : (
           <p>No restaurants found with the given criteria.</p>

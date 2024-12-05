@@ -38,8 +38,14 @@ function Home() {
         {/* Navigation */}
         <nav className="header-nav">
           <ul>
-            <li><Link to="/login">Log In</Link></li>
-            <li><Link to="/register" className="sign-up-button">Sign Up</Link></li>
+            <li>
+              <Link to="/login">Log In</Link>
+            </li>
+            <li>
+              <Link to="/register" className="sign-up-button">
+                Sign Up
+              </Link>
+            </li>
           </ul>
         </nav>
       </header>

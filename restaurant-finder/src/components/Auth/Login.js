@@ -31,25 +31,17 @@ function Login() {
       if (!response.ok) throw new Error('Login failed');
       const data = await response.json();
 
-      // Assuming the response contains a JWT token
       const token = data.jwtToken;
       if (token) {
-        // Decode the JWT token
         const decodedToken = jwtDecode(token);
-        console.log('Decoded JWT:', decodedToken);
-
-        // Store the token and user information in localStorage
         localStorage.setItem('token', token);
-        localStorage.setItem('username', decodedToken.name); // Assuming the token contains a 'name' claim
+        localStorage.setItem('username', decodedToken.name);
         localStorage.setItem('role', decodedToken.role);
-        //navigate to the page based on role
-        const role = localStorage.getItem('role');
-        if(role==='RMS_Customer')
-          navigate('/customer/dashboard');
-        if(role==='RMS_Admin')
-          navigate('/admin/dashboard');
-        if(role==='RMS_Business')
-          navigate('/business/dashboard');
+
+        const role = decodedToken.role;
+        if (role === 'RMS_Customer') navigate('/customer/dashboard');
+        else if (role === 'RMS_Admin') navigate('/admin/dashboard');
+        else if (role === 'RMS_Business') navigate('/business/dashboard');
       } else {
         throw new Error('Token not found in response');
       }
@@ -61,31 +53,44 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h2 className="login-title">Login</h2>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit} className="login-form">
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          className="login-input"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          className="login-input"
-        />
-        <button type="submit" className="login-button">
-          Login
-        </button>
-      </form>
+      <div className="login-card">
+        <h2 className="login-title">Sign in to Restaurant Finder</h2>
+        <p className="login-subtext">Connect with great local restaurants</p>
+        {error && <p className="error-message">{error}</p>}
+
+        {/* Login form */}
+        <form onSubmit={handleSubmit} className="login-form">
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="login-input"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="login-input"
+          />
+          <button type="submit" className="login-button">
+            Log in
+          </button>
+        </form>
+
+        {/* Footer */}
+        <p className="login-footer">
+          New to Restaurant Finder?{' '}
+          <a href="/register" className="sign-up-link">
+            Sign up
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
