@@ -1,66 +1,119 @@
-// src/pages/BusinessOwner/BusinessOwnerDashboard.js
-import React, { useState } from 'react';
-
-// Mock data for listings
-const mockListings = [
-  { id: 1, name: "Sushi Place", location: "123 Sushi St", status: "Active" },
-  { id: 2, name: "Pasta House", location: "456 Pasta Rd", status: "Active" },
-];
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import config from "../../config/config";
+import "./businessOwner.css";
 
 function BusinessOwnerDashboard() {
-  const [listings, setListings] = useState(mockListings);
-  const [newListing, setNewListing] = useState({ name: "", location: "", status: "Active" });
+  const [username, setUsername] = useState(null);
+  const [listings, setListings] = useState([]);
+  const [editingListingId, setEditingListingId] = useState(null);
+  const [newListing, setNewListing] = useState({
+    name: "",
+    address: "",
+    contactInfo: "",
+    description: "",
+    categories: "",
+    zipCode: "",
+    averageRating: "",
+    priceRange: "",
+    photos: "",
+    businessOwnerId: "",
+    hours: "",
+  });
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewListing({ ...newListing, [name]: value });
-  };
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+    const fetchAllListings = async () => {
+      try {
+        const response = await fetch(
+          `${config.services.restaurantService}/restaurants/byBusinessOwner?businessOwnerId=${localStorage.getItem(
+            "username"
+          )}`
+        );
+        if (!response.ok) throw new Error("Failed to fetch restaurants");
+        const data = await response.json();
+        setListings(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
 
-  const handleAddListing = (e) => {
-    e.preventDefault();
-    const newEntry = { id: listings.length + 1, ...newListing };
-    setListings([...listings, newEntry]);
-    setNewListing({ name: "", location: "", status: "Active" });
-  };
+    fetchAllListings();
+  }, []);
 
-  const handleDeleteListing = (id) => {
-    setListings(listings.filter((listing) => listing.id !== id));
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `${config.services.userService}/api/user/logout?token=${token}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) throw new Error("Error in logout API");
+    navigate("/");
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Business Owner Dashboard</h1>
-
+    <div className="common-container">
+      {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
       <h2>Your Listings</h2>
-      <ul>
+
+      <button
+        onClick={handleLogout}
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          padding: "10px 20px",
+          backgroundColor: "#f12711",
+          color: "white",
+          border: "none",
+          fontSize: "1rem",
+          cursor: "pointer",
+          borderRadius: "5px",
+          transition: "background-color 0.3s ease",
+        }}
+      >
+        Logout
+      </button>
+
+      <button
+    onClick={() => navigate("/search")}
+    style={{
+        padding: "10px 20px",
+        margin: "10px",
+        backgroundColor: "#1e90ff",
+        color: "white",
+        border: "none",
+        fontSize: "1rem",
+        cursor: "pointer",
+        borderRadius: "5px",
+        transition: "background-color 0.3s ease",
+        position: "absolute",
+        top: "10px", // Adjust as needed
+        right: "130px", // Aligns the button to the extreme right
+    }}
+>
+    All Restaurants and Search
+</button>
+
+
+      <ul className="ul-custom">
         {listings.map((listing) => (
-          <li key={listing.id}>
-            {listing.name} - {listing.location} ({listing.status})
-            <button onClick={() => handleDeleteListing(listing.id)}>Delete</button>
+          <li className="li-custom" key={listing.id}>
+            <span>{listing.name}</span> - <span>{listing.address}</span> -{" "}
+            <span>{listing.description}</span>
           </li>
         ))}
       </ul>
-
-      <h2>Add New Listing</h2>
-      <form onSubmit={handleAddListing}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Restaurant Name"
-          value={newListing.name}
-          onChange={handleInputChange}
-          required
-        />
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          value={newListing.location}
-          onChange={handleInputChange}
-          required
-        />
-        <button type="submit">Add Listing</button>
-      </form>
     </div>
   );
 }

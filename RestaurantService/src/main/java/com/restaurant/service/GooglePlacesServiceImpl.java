@@ -72,7 +72,13 @@ public class GooglePlacesServiceImpl implements GooglePlacesService {
             }
 
             // Set rating and zip code
-            restaurant.setAverageRating((double) place.getOrDefault("rating", 0.0));
+            Object ratingObject = place.getOrDefault("rating", 0.0);
+            double averageRating = 0.0;
+
+            if (ratingObject instanceof Number) {
+                averageRating = ((Number) ratingObject).doubleValue();
+            }
+            restaurant.setAverageRating(averageRating);
             restaurant.setZipCode(zipCode);
 
             // Add to list

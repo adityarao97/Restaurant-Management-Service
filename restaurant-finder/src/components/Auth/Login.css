@@ -1,69 +1,99 @@
 /* src/components/Auth/Login.css */
 
+/* Background for the login page */
 .login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f5af19, #f12711); /* Matching orange gradient from Home.css */
-    color: white;
-    font-family: 'Arial', sans-serif;
-    padding: 20px;
-  }
-  
-  .login-title {
-    font-size: 3em;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 400px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .login-input {
-    font-size: 1.2em;
-    margin: 10px 0;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.9);
-  }
-  
-  .login-input:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-  }
-  
-  .login-button {
-    margin-top: 20px;
-    padding: 10px;
-    font-size: 1.2em;
-    color: white;
-    background: rgba(255, 255, 255, 0.2); /* White transparent button for consistency */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-  
-  .login-button:hover {
-    background: rgba(255, 255, 255, 0.5); /* Lighter on hover */
-    transform: scale(1.05);
-  }
-  
-  .error-message {
-    color: #ff6b6b;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 1em;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5af19, #f12711); /* Orange gradient background */
+  color: white;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+}
+
+/* Centered login card */
+.login-card {
+  background: white;
+  color: #333;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Title and subtext styling */
+.login-title {
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+
+.login-subtext {
+  font-size: 1em;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+/* Error message styling */
+.error-message {
+  color: #ff6b6b;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* Login form styling */
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-input {
+  font-size: 1em;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #f12711;
+  box-shadow: 0 0 5px rgba(241, 39, 17, 0.5);
+}
+
+/* Login button styling */
+.login-button {
+  background: #d32323;
+  color: white;
+  font-size: 1.1em;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-button:hover {
+  background: #a81818;
+}
+
+/* Footer link styling */
+.login-footer {
+  margin-top: 20px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.sign-up-link {
+  color: #f12711;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.sign-up-link:hover {
+  text-decoration: underline;
+}
