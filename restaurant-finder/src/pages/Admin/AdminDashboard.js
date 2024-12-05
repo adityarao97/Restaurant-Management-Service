@@ -1,4 +1,3 @@
-// src/pages/Admin/AdminDashboard.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../../config/config";
@@ -75,8 +74,9 @@ function AdminDashboard() {
     <div className="common-container">
       {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
       <h2>All Listings</h2>
+
       <button
-        onClick={handleLogout} // Function to handle logout
+        onClick={handleLogout}
         style={{
           position: "absolute",
           top: "20px",
@@ -93,6 +93,26 @@ function AdminDashboard() {
       >
         Logout
       </button>
+
+      <button
+        onClick={() => navigate("/search")}
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "150px", // Adjust spacing from the Logout button
+          padding: "10px 20px",
+          backgroundColor: "#1e90ff",
+          color: "white",
+          border: "none",
+          fontSize: "1rem",
+          cursor: "pointer",
+          borderRadius: "5px",
+          transition: "background-color 0.3s ease",
+        }}
+      >
+        All Restaurants and Search
+      </button>
+
       <ul className="ul-custom">
         {listings.map((listing) => (
           <li className="li-custom" key={listing.id}>

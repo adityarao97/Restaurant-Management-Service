@@ -24,7 +24,7 @@ function BusinessOwnerDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
+    const storedUsername = localStorage.getItem("username");
     if (storedUsername) {
       setUsername(storedUsername);
     }
@@ -46,109 +46,6 @@ function BusinessOwnerDashboard() {
     fetchAllListings();
   }, []);
 
-  const handleEdit = (id) => {
-    setEditingListingId(id);
-  };
-
-  const handleChange = (e, id) => {
-    const { name, value } = e.target;
-    setListings((prevListings) =>
-      prevListings.map((listing) =>
-        listing.id === id ? { ...listing, [name]: value } : listing
-      )
-    );
-  };
-
-  const handleUpdateListing = async (id) => {
-    const updatedListing = listings.find((listing) => listing.id === id);
-
-    try {
-      const response = await fetch(
-        `${config.services.restaurantService}/restaurants/saveRestaurant`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedListing),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to update listing");
-      }
-
-      setEditingListingId(null);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleDeleteListing = async (id) => {
-    try {
-      const response = await fetch(
-        `${config.services.restaurantService}/restaurants/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to delete listing");
-      }
-
-      setListings(listings.filter((listing) => listing.id !== id));
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleAddNewListing = async (e) => {
-    e.preventDefault();
-
-    const newListingData = {
-      ...newListing,
-      categories: newListing.categories.split(",").map((cat) => cat.trim()),
-      photos: newListing.photos.split(",").map((url) => url.trim()),
-    };
-
-    try {
-      const response = await fetch(
-        `${config.services.restaurantService}/restaurants/saveRestaurant`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newListingData),
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to add new listing");
-      }
-
-      const data = await response.json();
-      setListings([...listings, data]);
-      setNewListing({
-        name: "",
-        address: "",
-        contactInfo: "",
-        description: "",
-        categories: "",
-        zipCode: "",
-        averageRating: "",
-        priceRange: "",
-        photos: "",
-        businessOwnerId: "",
-        hours: "",
-      });
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const handleNewListingChange = (e) => {
-    const { name, value } = e.target;
-    setNewListing((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
     const response = await fetch(
@@ -160,16 +57,17 @@ function BusinessOwnerDashboard() {
         },
       }
     );
-    if (!response.ok) throw new Error("error in logout api");
+    if (!response.ok) throw new Error("Error in logout API");
     navigate("/");
   };
 
   return (
     <div className="common-container">
-        {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
+      {username && <h2 className="welcome-message">Welcome, {username}!</h2>}
       <h2>Your Listings</h2>
+
       <button
-        onClick={handleLogout} // Function to handle logout
+        onClick={handleLogout}
         style={{
           position: "absolute",
           top: "20px",
@@ -186,153 +84,36 @@ function BusinessOwnerDashboard() {
       >
         Logout
       </button>
+
+      <button
+    onClick={() => navigate("/search")}
+    style={{
+        padding: "10px 20px",
+        margin: "10px",
+        backgroundColor: "#1e90ff",
+        color: "white",
+        border: "none",
+        fontSize: "1rem",
+        cursor: "pointer",
+        borderRadius: "5px",
+        transition: "background-color 0.3s ease",
+        position: "absolute",
+        top: "10px", // Adjust as needed
+        right: "130px", // Aligns the button to the extreme right
+    }}
+>
+    All Restaurants and Search
+</button>
+
+
       <ul className="ul-custom">
         {listings.map((listing) => (
           <li className="li-custom" key={listing.id}>
-            {editingListingId === listing.id ? (
-              <>
-                <input
-                  type="text"
-                  name="name"
-                  value={listing.name}
-                  onChange={(e) => handleChange(e, listing.id)}
-                />
-                <input
-                  type="text"
-                  name="address"
-                  value={listing.address}
-                  onChange={(e) => handleChange(e, listing.id)}
-                />
-                <textarea
-                  name="description"
-                  value={listing.description}
-                  onChange={(e) => handleChange(e, listing.id)}
-                />
-                <button onClick={() => handleUpdateListing(listing.id)}>
-                  Update
-                </button>
-              </>
-            ) : (
-              <>
-                <span>{listing.name}</span> - <span>{listing.address}</span> -{" "}
-                <span>{listing.description}</span>
-                <button className="buttonEdit" onClick={() => handleEdit(listing.id)}>Edit</button>
-                <button className="buttonDelete" onClick={() => handleDeleteListing(listing.id)}>Delete</button>
-              </>
-            )}
+            <span>{listing.name}</span> - <span>{listing.address}</span> -{" "}
+            <span>{listing.description}</span>
           </li>
         ))}
       </ul>
-
-      <h2>Add New Listing</h2>
-      <form onSubmit={handleAddNewListing}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={newListing.name}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <label>Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={newListing.address}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <label>Contact Info:</label>
-          <input
-            type="text"
-            name="contactInfo"
-            value={newListing.contactInfo}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <label>Description:</label>
-          <textarea
-            name="description"
-            value={newListing.description}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <label>Categories (comma separated):</label>
-          <input
-            type="text"
-            name="categories"
-            value={newListing.categories}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <label>Zip Code:</label>
-          <input
-            type="text"
-            name="zipCode"
-            value={newListing.zipCode}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <label>Average Rating:</label>
-          <input
-            type="number"
-            name="averageRating"
-            value={newListing.averageRating}
-            onChange={handleNewListingChange}
-            step="0.1"
-            min="0"
-            max="5"
-          />
-        </div>
-        <div>
-          <label>Price Range (1-4):</label>
-          <input
-            type="number"
-            name="priceRange"
-            value={newListing.priceRange}
-            onChange={handleNewListingChange}
-            min="1"
-            max="4"
-          />
-        </div>
-        <div>
-          <label>Photos (comma separated URLs):</label>
-          <input
-            type="text"
-            name="photos"
-            value={newListing.photos}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <label>Business Owner ID:</label>
-          <input
-            type="text"
-            name="businessOwnerId"
-            value={newListing.businessOwnerId}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <label>Hours:</label>
-          <input
-            type="text"
-            name="hours"
-            value={newListing.hours}
-            onChange={handleNewListingChange}
-          />
-        </div>
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
     </div>
   );
 }
