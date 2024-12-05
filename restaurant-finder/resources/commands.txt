@@ -1,0 +1,22 @@
+npm run build
+docker build -t nick287/react-app-arm:1 .
+
+docker run -d -p 3000:80 nick287/react-app-arm:1
+docker push nick287/react-app-arm:1
+
+
+
+EC2 :
+
+ssh -i ec2Nikhil.pem ec2-user@3.144.104.107
+
+sudo systemctl start docker
+
+sudo docker pull nick287/react-app-arm:1
+sudo docker run -d -p 3000:80 nick287/react-app-arm:1
+
+[ec2-user@ip-172-31-8-170 ~]$ sudo docker stop 598f615b6a80
+
+docker container prune -f
+sudo docker image prune -a
+
