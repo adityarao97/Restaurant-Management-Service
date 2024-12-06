@@ -1,6 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nqsiO_r4)
 
-Restaurant Finder public IP in AWS: http://18.118.189.201:3000/
+Restaurant Finder public IP in AWS: http://202balancer-263565865.us-east-2.elb.amazonaws.com/
+
 
 ---
 
@@ -107,5 +108,5 @@ To raise the overall caliber of the application, the team aggressively solicited
 ### Sprint View
 ![Sprint View](docs/Diagrams/Sprint.png)
 
-### Backend Architecture
+### Class Diagram
 ![Backend Architecture](docs/Diagrams/Backend.png)
