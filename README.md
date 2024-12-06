@@ -1,5 +1,4 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nqsiO_r4)
-Jira Link : https://sjsu-202.atlassian.net/jira/software/projects/SCRUM/boards/1
 
 Restaurant Finder public IP in AWS: http://18.118.189.201:3000/
 
@@ -14,7 +13,9 @@ Restaurant Finder public IP in AWS: http://18.118.189.201:3000/
 
 **Backend**:  
 - Aditya Rao  
-- Nikhil Koli  
+- Nikhil Koli
+- [Project_Sprint Task Timeline - Sheet1.pdf](https://github.com/user-attachments/files/18031545/Project_Sprint.Task.Timeline.-.Sheet1.pdf)
+
 
 ---
 
@@ -30,9 +31,10 @@ Restaurant Finder public IP in AWS: http://18.118.189.201:3000/
 
 
 **Aditya Rao**:  
-- Developed backend services for the user module.  
-- Integrated user service with the frontend.  
-- Handled database interactions and user authentication mechanisms.  
+- Developed backend services for the user module.
+- Integrated user service with the frontend.
+- Handled database interactions and deployment of user-service MySQL in RDS.
+- Role based handling in UI for admin, business-owner and customer.
 
 **Nikhil Koli**:  
 - Developed backend services for restaurant management and integrated with mongo.  
@@ -56,7 +58,7 @@ Restaurant Finder public IP in AWS: http://18.118.189.201:3000/
 
 | Question                     | Answer                            |
 |------------------------------|------------------------------------|
-| How many weeks per sprint?   | 3 weeks                          |
+| How many weeks per sprint?   | 2 weeks                          |
 | Mode of scrum meetings       | Online Discord Calls (Tue, Thu, Fri) |
 | Communication Channel        | Discord                          |
 
