@@ -39,6 +39,7 @@ Jira Link : https://sjsu-202.atlassian.net/jira/software/projects/SCRUM/boards/1
 - Developed backend services for restaurant management.  
 - Integrated restaurant service with the frontend.  
 - Built APIs for restaurant search, booking, and feedback handling.
+- Dockerised all the services
 
 ## Sprint Notes (Design Decisions)
 
