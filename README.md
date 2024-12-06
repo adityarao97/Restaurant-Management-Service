@@ -12,7 +12,10 @@ Restaurant Finder public IP in AWS: http://18.118.189.201:3000/
 
 **Backend**:  
 - Aditya Rao  
-- Nikhil Koli  
+- Nikhil Koli
+-
+- [Project_Sprint Task Timeline - Sheet1.pdf](https://github.com/user-attachments/files/18031545/Project_Sprint.Task.Timeline.-.Sheet1.pdf)
+
 
 ---
 
