@@ -36,7 +36,7 @@ Jira Link : https://sjsu-202.atlassian.net/jira/software/projects/SCRUM/boards/1
 - Handled database interactions and user authentication mechanisms.  
 
 **Nikhil Koli**:  
-- Developed backend services for restaurant management.  
+- Developed backend services for restaurant management and integrated with mongo.  
 - Integrated restaurant service with the frontend.  
 - Built APIs for restaurant search, booking, and feedback handling.
 - Dockerised all the services
@@ -62,22 +62,27 @@ Jira Link : https://sjsu-202.atlassian.net/jira/software/projects/SCRUM/boards/1
 | Communication Channel        | Discord                          |
 
 ### 1. Sprint Meeting 1 (9/15)
-In the first sprint, the team focused on designing the application's architecture. The project was divided into two microservices: User Service and Restaurant Service. The frontend team, consisting of Jinwoo Bae and Shanmukha Manoj Kakani, began developing a responsive and interactive user interface using React. The backend team, Aditya Rao and Nikhil Koli, initiated the development of the User Service, which included functionalities for login and registration. The foundational MySQL schema and MongoDB schema was established during this sprint to support the application.
+In the first sprint, the team focused on laying the foundation for the application by designing its architecture and initiating database setup. Aditya Rao worked on the MySQL schema for the User Service and set up an AWS RDS instance, while Nikhil Koli created the MongoDB schema for the Restaurant Service and configured its deployment on Atlas. On the frontend side, Jinwoo Bae established the initial React application, integrating essential libraries and designing a basic UI for login and registration. Meanwhile, Shanmukha Manoj Kakani led the effort to draft the architecture and activity diagrams, providing a high-level understanding of the project's flow. These activities collectively established a strong foundation for future development.
+
 
 ---
 
 ### 2. Sprint Meeting 2 (10/2)
-The second sprint concentrated on integrating the frontend and backend. The User Service APIs were successfully connected to the frontend, enabling smooth user registration and login processes. The backend team, led by Aditya and Nikhil, made significant progress on the Restaurant Service, focusing on building APIs for managing restaurant data. Meanwhile, the team started deploying the application on AWS, configuring the necessary environment for scalability and high availability.
+The second sprint was dedicated to API development and integration. Aditya Rao and Nikhil Koli made significant progress on the backend, with Aditya developing the User Service APIs to handle user creation and retrieval and Nikhil building APIs to manage restaurant data. The frontend team connected the React application with the backend services, enabling seamless functionality for user login and registration. This sprint marked a crucial step in ensuring the components worked cohesively, paving the way for enhanced features in the next phases.
+
 
 ---
 
 ### 3. Sprint Meeting 3 (10/23)
-During the third sprint, the team finalized the core functionalities of the application. The frontend team developed a dynamic search feature and improved UI components for better user interaction. The backend team completed additional endpoints for restaurant management, including features for restaurant search and feedback handling. Business rules, such as preventing duplicate entries and enforcing user validations, were implemented. Testing was conducted to ensure the application met all functional requirements.
+During the third sprint, the team shifted focus to refining features and improving user experience. The restaurant search functionality was developed and integrated with MongoDB, while new endpoints were created for handling user reviews and ratings. Business rules, such as validation checks and duplicate entry prevention, were implemented to ensure data integrity. Thorough testing of both unit and integration levels was carried out to verify the reliability of APIs and the frontend's compatibility, marking substantial progress toward a robust application.
+
 
 ---
 
 ### 4. Sprint Meeting 4 (11/12)
-In the final sprint, the team focused on deployment and optimization. The backend services were deployed on AWS using an auto-scaled EC2 cluster and a MySQL RDS instance to ensure high performance and reliability. The frontend team refined UI elements, added error handling, and addressed any remaining bugs. With all services fully integrated and tested, the project was prepared for final submission and demonstration.
+The final sprint concentrated on deployment and fine-tuning the application. Backend services were successfully deployed on AWS using EC2 instances for scalability and RDS for reliable database performance. The frontend team improved error handling, refined UI elements, and resolved any remaining bugs. Comprehensive end-to-end testing was conducted to ensure all features worked seamlessly. With all components integrated and tested, the project was finalized and prepared for submission, showcasing a complete and polished application.
+
+
 
 ## XP Core Values
 
