@@ -1,9 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nqsiO_r4)
 Jira Link : https://sjsu-202.atlassian.net/jira/software/projects/SCRUM/boards/1
 
-## Restaurant Finder
-
-[Link to GitHub Repository](#) 
+Restaurant Finder public IP in AWS: http://18.118.189.201:3000/
 
 ---
 
