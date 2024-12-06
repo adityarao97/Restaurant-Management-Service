@@ -92,6 +92,7 @@ The team focused on developing only the most important features during each spri
 
 ### Feedback
 To raise the overall caliber of the application, the team aggressively solicited input from one another throughout the development process. Team members assessed finished features, including the restaurant search and user authentication system, during sprint reviews and offered helpful recommendations for improvements. Frequent testing and incremental enhancements made that the program worked as intended and fulfilled user expectations. The team was able to improve their work and produce a polished end result by placing a strong emphasis on feedback.
+
 ## System Diagrams
 
 ### Architecture Diagram
@@ -102,3 +103,9 @@ To raise the overall caliber of the application, the team aggressively solicited
 
 ### Component Diagram
 ![Component Diagram](docs/Diagrams/Component.png)
+
+### Sprint View
+![Sprint View](docs/Diagrams/Sprint.png)
+
+### Backend Architecture
+![Backend Architecture](docs/Diagrams/Backend.png)
