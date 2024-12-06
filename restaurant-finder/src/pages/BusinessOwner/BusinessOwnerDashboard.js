@@ -186,6 +186,25 @@ function BusinessOwnerDashboard() {
       >
         Logout
       </button>
+      <button
+    onClick={() => navigate("/search")}
+    style={{
+        padding: "10px 20px",
+        margin: "10px",
+        backgroundColor: "#1e90ff",
+        color: "white",
+        border: "none",
+        fontSize: "1rem",
+        cursor: "pointer",
+        borderRadius: "5px",
+        transition: "background-color 0.3s ease",
+        position: "absolute",
+        top: "10px", // Adjust as needed
+        right: "130px", // Aligns the button to the extreme right
+    }}
+>
+    All Restaurants and Search
+</button>
       <ul className="ul-custom">
         {listings.map((listing) => (
           <li className="li-custom" key={listing.id}>

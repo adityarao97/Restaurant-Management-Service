@@ -117,17 +117,17 @@ function Search() {
       <button
     onClick={handleLogout} // Function to handle logout
     style={{
-      position: 'absolute',
-      top: '20px',
-      right: '20px',
-      padding: '10px 20px',
-      backgroundColor: '#f12711',
-      color: 'white',
-      border: 'none',
-      fontSize: '1rem',
-      cursor: 'pointer',
-      borderRadius: '5px',
-      transition: 'background-color 0.3s ease',
+      position: "absolute",
+      top: "8px",
+      right: "20px",
+      padding: "10px 20px",
+      backgroundColor: "#f12711",
+      color: "white",
+      border: "none",
+      fontSize: "1rem",
+      cursor: "pointer",
+      borderRadius: "5px",
+      transition: "background-color 0.3s ease",
     }}
   >
     Logout

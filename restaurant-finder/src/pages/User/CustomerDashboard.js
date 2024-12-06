@@ -23,23 +23,6 @@ function CustomerDashboard() {
           <h1 className="logo">Restaurant Finder</h1>
         </div>
 
-        <div className="search-restaurants-container">
-          <h2 className="search-restaurants">Search Restaurants</h2>
-        </div>
-
-        <div className="dropdown-container">
-          <button
-            className="dropdown-button"
-            onClick={toggleDropdown}
-          >
-            Customer Dashboard
-          </button>
-          {isDropdownOpen && (
-            <ul className="dropdown-menu">
-              <li onClick={handleBusinessAccountClick}>Log in to Business Account</li>
-            </ul>
-          )}
-        </div>
       </header>
 
       {/* Main Search Section */}
