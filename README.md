@@ -95,10 +95,10 @@ To raise the overall caliber of the application, the team aggressively solicited
 ## System Diagrams
 
 ### Architecture Diagram
-![Architecture Diagram](/docs/diagrams/Architecture.png)
+![Architecture Diagram](docs/Diagrams/Architecture.png)
 
 ### Activity Diagram 
-![Activity Diagram](/docs/diagrams/Activity.png)
+![Activity Diagram](docs/Diagrams/Activity.png)
 
 ### Component Diagram
-![Component Diagram](/docs/diagrams/Component.png)
+![Component Diagram](docs/Diagrams/Component.png)
